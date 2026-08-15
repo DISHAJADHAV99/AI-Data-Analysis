@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<!-- ==========================================
+     AI RECOMMENDATIONS
+========================================== -->
+
+<div class="ai-card" style="margin-bottom:25px;">
+
+    <h2>💡 AI Business Recommendations</h2>
+
+    <p class="ai-description">
+        Recommendations generated from the current sales data.
+    </p>
+
+    <div id="recommendations">
+
+        <div class="answer-card">
+            Loading recommendations...
+        </div>
+
+    </div>
+
+</div>
+
+<title>AI Data Analyst Dashboard</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.header {
+    background: linear-gradient(
+        135deg,
+        #172554,
+        #2563eb
+    );
+
+    color: white;
+    padding: 28px 40px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 32px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    opacity: 0.9;
+}
+
+/* ================================
+   CONTAINER
+================================ */
+
+.container {
+    max-width: 1500px;
+    margin: auto;
+    padding: 25px;
+}
+
+/* ================================
+   STATUS
+================================ */
+
+.system-status {
+    background: white;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.06);
+
+    font-weight: bold;
+}
+
+/* ================================
+   FILTERS
+================================ */
+
+.filters {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: end;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.06);
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.filter label {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+select {
+    min-width: 190px;
+    padding: 10px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+    background: white;
+    font-size: 14px;
+}
+
+.refresh {
+    background: #2563eb;
+    color: white;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 11px 20px;
+
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.refresh:hover {
+    background: #1d4ed8;
+}
+
+/* ================================
+   KPI
+================================ */
+
+.kpi-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+.kpi {
+    background: white;
+    border-radius: 14px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.07);
+
+    border-top:
+        4px solid #2563eb;
+}
+
+.kpi-title {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.kpi-value {
+    color: #1d4ed8;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+/* ================================
+   ANALYTICS
+================================ */
+
+.analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 20px;
+
+    margin-bottom: 25px;
+}
+
+.card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.07);
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+/* ================================
+   BAR CHART
+================================ */
+
+.chart-row {
+    margin: 18px 0;
+}
+
+.chart-label {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 14px;
+
+    margin-bottom: 7px;
+}
+
+.bar-background {
+    width: 100%;
+    height: 14px;
+
+    background: #e2e8f0;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #60a5fa
+        );
+
+    border-radius: 20px;
+
+    transition: width 0.5s;
+}
+
+/* ================================
+   GENDER
+================================ */
+
+.gender-box {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+    margin-top: 20px;
+}
+
+.gender-item {
+    text-align: center;
+
+    padding: 25px;
+
+    background: #f8fafc;
+
+    border-radius: 12px;
+}
+
+.gender-value {
+    font-size: 28px;
+
+    font-weight: bold;
+
+    color: #2563eb;
+}
+
+/* ================================
+   RECOMMENDATIONS
+================================ */
+
+.recommendation-card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.07);
+}
+
+.recommendation-card h2 {
+    margin-top: 0;
+
+    font-size: 23px;
+}
+
+.recommendation-description {
+    color: #64748b;
+
+    margin-bottom: 20px;
+}
+
+.recommendation-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.recommendation-item {
+    background: #f8fafc;
+
+    border-left:
+        5px solid #2563eb;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    line-height: 1.6;
+}
+
+.recommendation-title {
+    font-weight: bold;
+
+    color: #1d4ed8;
+
+    margin-bottom: 5px;
+}
+
+.recommendation-text {
+    color: #334155;
+}
+
+/* ================================
+   AI SECTION
+================================ */
+
+.ai-card {
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 4px 15px
+        rgba(0,0,0,0.07);
+}
+
+.ai-card h2 {
+    margin-top: 0;
+    font-size: 23px;
+}
+
+.ai-description {
+    color: #64748b;
+}
+
+textarea {
+    width: 100%;
+
+    min-height: 160px;
+
+    padding: 15px;
+
+    border:
+        1px solid #cbd5e1;
+
+    border-radius: 10px;
+
+    resize: vertical;
+
+    font-size: 15px;
+
+    font-family: Arial;
+}
+
+textarea:focus {
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,0.1);
+}
+
+.button-row {
+    margin-top: 12px;
+}
+
+.ask-button {
+    background: #172554;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 22px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    font-size: 15px;
+}
+
+.clear-button {
+    background: #e2e8f0;
+
+    color: #334155;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 22px;
+
+    cursor: pointer;
+
+    margin-left: 8px;
+
+    font-weight: bold;
+}
+
+/* ================================
+   ANSWERS
+================================ */
+
+#status {
+    margin-top: 18px;
+    font-weight: bold;
+}
+
+#answers {
+    margin-top: 20px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.answer-card {
+    background: #f8fafc;
+
+    border-left:
+        5px solid #2563eb;
+
+    border-radius: 10px;
+
+    padding: 18px;
+}
+
+.answer-question {
+    color: #1d4ed8;
+
+    font-weight: bold;
+
+    margin-bottom: 10px;
+}
+
+.answer-text {
+    white-space: pre-wrap;
+
+    line-height: 1.6;
+}
+
+/* ================================
+   LOADING
+================================ */
+
+.loading {
+    color: #64748b;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media(max-width: 1000px) {
+
+    .kpi-grid {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .analytics-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+@media(max-width: 600px) {
+
+    .kpi-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    select {
+        width: 100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==========================================
+     HEADER
+========================================== -->
+
+<div class="header">
+
+    <h1>
+        🤖 AI Data Analyst
+    </h1>
+
+    <p>
+        Interactive Sales Analytics Dashboard
+    </p>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- ==========================================
+     STATUS
+========================================== -->
+
+<div
+    class="system-status"
+    id="systemStatus">
+
+    ⏳ Loading dashboard...
+
+</div>
+
+
+<!-- ==========================================
+     FILTERS
+========================================== -->
+
+<div class="filters">
+
+    <div class="filter">
+
+        <label>
+            City
+        </label>
+
+        <select id="cityFilter">
+
+            <option value="All">
+                All Cities
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="filter">
+
+        <label>
+            Gender
+        </label>
+
+        <select id="genderFilter">
+
+            <option value="All">
+                All Genders
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div class="filter">
+
+        <label>
+            Product Line
+        </label>
+
+        <select id="productFilter">
+
+            <option value="All">
+                All Products
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button
+        class="refresh"
+        onclick="loadDashboard()">
+
+        🔄 Refresh Dashboard
+
+    </button>
+
+</div>
+
+
+<!-- ==========================================
+     KPI ROW 1
+========================================== -->
+
+<div class="kpi-grid">
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Total Sales
+        </div>
+
+        <div
+            class="kpi-value"
+            id="totalSales">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Average Sale
+        </div>
+
+        <div
+            class="kpi-value"
+            id="averageSale">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Highest Sale
+        </div>
+
+        <div
+            class="kpi-value"
+            id="highestSale">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Transactions
+        </div>
+
+        <div
+            class="kpi-value"
+            id="transactions">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================================
+     KPI ROW 2
+========================================== -->
+
+<div class="kpi-grid">
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Total Quantity
+        </div>
+
+        <div
+            class="kpi-value"
+            id="totalQuantity">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Highest Sales City
+        </div>
+
+        <div
+            class="kpi-value"
+            id="bestCity">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Best Product Line
+        </div>
+
+        <div
+            class="kpi-value"
+            id="bestProduct">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+    <div class="kpi">
+
+        <div class="kpi-title">
+            Top Gender
+        </div>
+
+        <div
+            class="kpi-value"
+            id="topGender">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================================
+     ANALYTICS
+========================================== -->
+
+<div class="analytics-grid">
+
+
+    <div class="card">
+
+        <h2>
+            💰 Sales by City
+        </h2>
+
+        <div id="cityChart"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            🛍️ Sales by Product Line
+        </h2>
+
+        <div id="productChart"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            👥 Sales by Gender
+        </h2>
+
+        <div
+            class="gender-box"
+            id="genderChart">
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>
+            📦 Quantity by City
+        </h2>
+
+        <div id="quantityChart"></div>
+
+    </div>
+
+
+</div>
+
+
+<!-- ==========================================
+     AI RECOMMENDATIONS
+========================================== -->
+
+<div class="recommendation-card">
+
+    <h2>
+        💡 AI Business Recommendations
+    </h2>
+
+    <p class="recommendation-description">
+
+        Recommendations are automatically generated
+        from the current dashboard data.
+
+    </p>
+
+    <div
+        id="recommendations"
+        class="recommendation-list">
+
+        <div class="recommendation-item">
+
+            <div class="recommendation-title">
+                ⏳ Analyzing Data
+            </div>
+
+            <div class="recommendation-text">
+                Please wait while AI analyzes the sales data...
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================
+     AI DATA ANALYST
+========================================== -->
+
+<div class="ai-card">
+
+    <h2>
+        🤖 Ask AI Data Analyst
+    </h2>
+
+    <p class="ai-description">
+
+        Ask multiple questions at once.
+        Write each question on a new line.
+
+    </p>
+
+
+    <textarea
+        id="questions"
+        placeholder="What is the highest total?
+Which city has the highest sales?
+Which product line has the highest sales?
+Show top 3 cities
+Show top 5 products
+What is the average sale?"></textarea>
+
+
+    <div class="button-row">
+
+        <button
+            class="ask-button"
+            onclick="askQuestions()">
+
+            🤖 Ask AI
+
+        </button>
+
+
+        <button
+            class="clear-button"
+            onclick="clearQuestions()">
+
+            Clear
+
+        </button>
+
+    </div>
+
+
+    <div id="status"></div>
+
+    <div id="answers"></div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+// ==================================================
+// GLOBAL DATA
+// ==================================================
+
+let dashboardData = null;
+
+
+// ==================================================
+// LOAD DASHBOARD
+// ==================================================
+
+async function loadDashboard() {
+
+    const status =
+        document.getElementById(
+            "systemStatus"
+        );
+
+    status.innerText =
+        "⏳ Loading dashboard...";
+
+
+    try {
+
+        const city =
+            document.getElementById(
+                "cityFilter"
+            ).value;
+
+        const gender =
+            document.getElementById(
+                "genderFilter"
+            ).value;
+
+        const product =
+            document.getElementById(
+                "productFilter"
+            ).value;
+
+
+        const params =
+            new URLSearchParams();
+
+
+        if (city && city !== "All") {
+
+            params.append(
+                "city",
+                city
+            );
+
+        }
+
+
+        if (gender && gender !== "All") {
+
+            params.append(
+                "gender",
+                gender
+            );
+
+        }
+
+
+        if (product && product !== "All") {
+
+            params.append(
+                "product",
+                product
+            );
+
+        }
+
+
+        const url =
+            "/dashboard-filtered"
+            +
+            (
+                params.toString()
+                ? "?" + params.toString()
+                : ""
+            );
+
+
+        console.log(
+            "Calling:",
+            url
+        );
+
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                "Dashboard API returned "
+                + response.status
+                + ": "
+                + errorText
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        dashboardData = data;
+
+
+        updateDashboard(data);
+
+
+        status.innerText =
+            "✅ Dashboard loaded successfully";
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Dashboard error:",
+            error
+        );
+
+
+        status.innerText =
+            "❌ Dashboard error: "
+            + error.message;
+
+    }
+
+}
+
+
+// ==================================================
+// UPDATE DASHBOARD
+// ==================================================
+
+function updateDashboard(data) {
+
+
+    document.getElementById(
+        "totalSales"
+    ).innerText =
+        Number(
+            data.total_sales || 0
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "averageSale"
+    ).innerText =
+        Number(
+            data.average_sale || 0
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "highestSale"
+    ).innerText =
+        Number(
+            data.highest_sale || 0
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "transactions"
+    ).innerText =
+        data.transactions || 0;
+
+
+    document.getElementById(
+        "totalQuantity"
+    ).innerText =
+        data.total_quantity || 0;
+
+
+    const cities =
+        Object.entries(
+            data.sales_by_city || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    document.getElementById(
+        "bestCity"
+    ).innerText =
+        cities.length
+        ? cities[0][0]
+        : "N/A";
+
+
+    const products =
+        Object.entries(
+            data.sales_by_product || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    document.getElementById(
+        "bestProduct"
+    ).innerText =
+        products.length
+        ? products[0][0]
+        : "N/A";
+
+
+    const genders =
+        Object.entries(
+            data.sales_by_gender || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    document.getElementById(
+        "topGender"
+    ).innerText =
+        genders.length
+        ? genders[0][0]
+        : "N/A";
+
+
+    createBarChart(
+        "cityChart",
+        data.sales_by_city || {},
+        "Sales"
+    );
+
+
+    createBarChart(
+        "productChart",
+        data.sales_by_product || {},
+        "Sales"
+    );
+
+
+    createGenderChart(
+        data.sales_by_gender || {}
+    );
+
+
+    createBarChart(
+        "quantityChart",
+        data.quantity_by_city || {},
+        "Quantity"
+    );
+
+
+    updateFilterOptions(data);
+
+
+    generateRecommendations(data);
+
+}
+
+
+// ==================================================
+// AI RECOMMENDATIONS
+// ==================================================
+
+function generateRecommendations(data) {
+
+    const container =
+        document.getElementById(
+            "recommendations"
+        );
+
+    container.innerHTML = "";
+
+
+    const recommendations = [];
+
+
+    // ------------------------------------------
+    // CITY RECOMMENDATION
+    // ------------------------------------------
+
+    const cities =
+        Object.entries(
+            data.sales_by_city || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    if (cities.length > 0) {
+
+        const bestCity =
+            cities[0][0];
+
+        const bestCitySales =
+            Number(cities[0][1]);
+
+
+        recommendations.push({
+
+            title:
+                "🏙️ Focus on the Best Performing City",
+
+            text:
+                bestCity
+                +
+                " has the highest sales with "
+                +
+                bestCitySales.toFixed(2)
+                +
+                ". Consider increasing marketing, inventory and promotional activities in this city."
+
+        });
+
+    }
+
+
+    // ------------------------------------------
+    // PRODUCT RECOMMENDATION
+    // ------------------------------------------
+
+    const products =
+        Object.entries(
+            data.sales_by_product || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    if (products.length > 0) {
+
+        const bestProduct =
+            products[0][0];
+
+        const bestProductSales =
+            Number(products[0][1]);
+
+
+        recommendations.push({
+
+            title:
+                "🛍️ Promote the Top Product",
+
+            text:
+                bestProduct
+                +
+                " is the highest-selling product line with sales of "
+                +
+                bestProductSales.toFixed(2)
+                +
+                ". Consider maintaining sufficient stock and creating targeted promotions."
+
+        });
+
+    }
+
+
+    // ------------------------------------------
+    // LOW PERFORMING PRODUCT
+    // ------------------------------------------
+
+    if (products.length > 1) {
+
+        const lowProduct =
+            products[products.length - 1][0];
+
+        const lowSales =
+            Number(
+                products[products.length - 1][1]
+            );
+
+
+        recommendations.push({
+
+            title:
+                "📉 Improve Low Performing Product",
+
+            text:
+                lowProduct
+                +
+                " has the lowest sales among the product lines at "
+                +
+                lowSales.toFixed(2)
+                +
+                ". Consider discounts, bundles or targeted marketing to improve performance."
+
+        });
+
+    }
+
+
+    // ------------------------------------------
+    // GENDER
+    // ------------------------------------------
+
+    const genders =
+        Object.entries(
+            data.sales_by_gender || {}
+        ).sort(
+            (a,b) =>
+                Number(b[1])
+                -
+                Number(a[1])
+        );
+
+
+    if (genders.length > 0) {
+
+        const topGender =
+            genders[0][0];
+
+
+        recommendations.push({
+
+            title:
+                "👥 Target the Largest Customer Segment",
+
+            text:
+                topGender
+                +
+                " customers generate the highest sales. Consider creating targeted campaigns and offers for this customer segment."
+
+        });
+
+    }
+
+
+    // ------------------------------------------
+    // AVERAGE SALE
+    // ------------------------------------------
+
+    const averageSale =
+        Number(
+            data.average_sale || 0
+        );
+
+
+    if (averageSale > 0) {
+
+        recommendations.push({
+
+            title:
+                "💰 Increase Average Transaction Value",
+
+            text:
+                "The current average sale is "
+                +
+                averageSale.toFixed(2)
+                +
+                ". Consider cross-selling, upselling and product bundles to increase the average transaction value."
+
+        });
+
+    }
+
+
+    // ------------------------------------------
+    // DISPLAY
+    // ------------------------------------------
+
+    if (recommendations.length === 0) {
+
+        container.innerHTML = `
+
+            <div class="recommendation-item">
+
+                <div class="recommendation-title">
+                    ⚠️ No Recommendations
+                </div>
+
+                <div class="recommendation-text">
+                    Not enough data is available to generate recommendations.
+                </div>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    recommendations.forEach(
+        recommendation => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "recommendation-item";
+
+
+            item.innerHTML = `
+
+                <div class="recommendation-title">
+
+                    ${escapeHtml(
+                        recommendation.title
+                    )}
+
+                </div>
+
+
+                <div class="recommendation-text">
+
+                    ${escapeHtml(
+                        recommendation.text
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// FILTER OPTIONS
+// ==================================================
+
+function updateFilterOptions(data) {
+
+    const currentCity =
+        document.getElementById(
+            "cityFilter"
+        ).value;
+
+    const currentGender =
+        document.getElementById(
+            "genderFilter"
+        ).value;
+
+    const currentProduct =
+        document.getElementById(
+            "productFilter"
+        ).value;
+
+
+    fillSelect(
+        "cityFilter",
+        data.available_cities ||
+        Object.keys(
+            data.sales_by_city || {}
+        ),
+        "All Cities",
+        currentCity
+    );
+
+
+    fillSelect(
+        "genderFilter",
+        data.available_genders ||
+        Object.keys(
+            data.sales_by_gender || {}
+        ),
+        "All Genders",
+        currentGender
+    );
+
+
+    fillSelect(
+        "productFilter",
+        data.available_products ||
+        Object.keys(
+            data.sales_by_product || {}
+        ),
+        "All Products",
+        currentProduct
+    );
+
+}
+
+
+// ==================================================
+// CREATE BAR CHART
+// ==================================================
+
+function createBarChart(
+    elementId,
+    data,
+    label
+) {
+
+    const container =
+        document.getElementById(
+            elementId
+        );
+
+
+    container.innerHTML = "";
+
+
+    const entries =
+        Object.entries(data);
+
+
+    if (entries.length === 0) {
+
+        container.innerHTML =
+            "<p>No data available</p>";
+
+        return;
+
+    }
+
+
+    const maxValue =
+        Math.max(
+            ...entries.map(
+                item =>
+                    Number(item[1])
+            )
+        );
+
+
+    entries.forEach(
+        item => {
+
+            const name =
+                item[0];
+
+            const value =
+                Number(item[1]);
+
+
+            const percentage =
+                maxValue === 0
+                ? 0
+                :
+                (
+                    value /
+                    maxValue
+                ) * 100;
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "chart-row";
+
+
+            row.innerHTML = `
+
+                <div class="chart-label">
+
+                    <span>
+                        ${escapeHtml(name)}
+                    </span>
+
+                    <strong>
+                        ${value.toFixed(2)}
+                    </strong>
+
+                </div>
+
+
+                <div class="bar-background">
+
+                    <div
+                        class="bar"
+                        style="
+                            width:${percentage}%;
+                        "
+                    ></div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// GENDER
+// ==================================================
+
+function createGenderChart(data) {
+
+    const container =
+        document.getElementById(
+            "genderChart"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const entries =
+        Object.entries(data);
+
+
+    if (entries.length === 0) {
+
+        container.innerHTML =
+            "<p>No gender data available</p>";
+
+        return;
+
+    }
+
+
+    entries.forEach(
+        item => {
+
+            const box =
+                document.createElement(
+                    "div"
+                );
+
+
+            box.className =
+                "gender-item";
+
+
+            box.innerHTML = `
+
+                <div>
+                    ${escapeHtml(item[0])}
+                </div>
+
+                <div class="gender-value">
+
+                    ${Number(
+                        item[1]
+                    ).toFixed(2)}
+
+                </div>
+
+                <div>
+                    Sales
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                box
+            );
+
+        }
+    );
+
+}
+
+
+// ==================================================
+// FILL SELECT
+// ==================================================
+
+function fillSelect(
+    id,
+    values,
+    firstText,
+    selectedValue
+) {
+
+    const select =
+        document.getElementById(
+            id
+        );
+
+
+    if (!select) {
+        return;
+    }
+
+
+    select.innerHTML = "";
+
+
+    const first =
+        document.createElement(
+            "option"
+        );
+
+
+    first.value =
+        "All";
+
+
+    first.textContent =
+        firstText;
+
+
+    select.appendChild(
+        first
+    );
+
+
+    values.forEach(
+        value => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                value;
+
+
+            option.textContent =
+                value;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+
+    if (
+        selectedValue &&
+        [...select.options].some(
+            option =>
+                option.value ===
+                selectedValue
+        )
+    ) {
+
+        select.value =
+            selectedValue;
+
+    }
+
+}
+
+
+// ==================================================
+// FILTER EVENTS
+// ==================================================
+
+document.getElementById(
+    "cityFilter"
+).addEventListener(
+    "change",
+    function() {
+
+        loadDashboard();
+
+    }
+);
+
+
+document.getElementById(
+    "genderFilter"
+).addEventListener(
+    "change",
+    function() {
+
+        loadDashboard();
+
+    }
+);
+
+
+document.getElementById(
+    "productFilter"
+).addEventListener(
+    "change",
+    function() {
+
+        loadDashboard();
+
+    }
+);
+
+
+// ==================================================
+// ASK MULTIPLE QUESTIONS
+// ==================================================
+
+async function askQuestions() {
+
+    const text =
+        document.getElementById(
+            "questions"
+        ).value.trim();
+
+
+    const status =
+        document.getElementById(
+            "status"
+        );
+
+
+    const answers =
+        document.getElementById(
+            "answers"
+        );
+
+
+    if (!text) {
+
+        status.innerText =
+            "⚠️ Please enter at least one question.";
+
+        return;
+
+    }
+
+
+    const questions =
+        text
+        .split(/\r?\n/)
+        .map(
+            q =>
+                q.trim()
+        )
+        .filter(
+            q =>
+                q.length > 0
+        );
+
+
+    status.innerText =
+        "🤖 Analyzing "
+        +
+        questions.length
+        +
+        " question(s)...";
+
+
+    answers.innerHTML = "";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/ask_multiple",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            questions:
+                                questions
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Request failed"
+            );
+
+        }
+
+
+        if (
+            !data.answers ||
+            data.answers.length === 0
+        ) {
+
+            status.innerText =
+                "⚠️ No answers returned.";
+
+            return;
+
+        }
+
+
+        data.answers.forEach(
+            item => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "answer-card";
+
+
+                card.innerHTML = `
+
+                    <div
+                        class="answer-question">
+
+                        ❓
+                        ${escapeHtml(
+                            item.question
+                        )}
+
+                    </div>
+
+
+                    <div
+                        class="answer-text">
+
+                        ${escapeHtml(
+                            item.answer
+                        )}
+
+                    </div>
+
+                `;
+
+
+                answers.appendChild(
+                    card
+                );
+
+            }
+        );
+
+
+        status.innerText =
+            "✅ "
+            +
+            data.answers.length
+            +
+            " question(s) answered";
+
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "AI error:",
+            error
+        );
+
+
+        status.innerText =
+            "❌ AI error: "
+            +
+            error.message;
+
+    }
+
+}
+
+
+// ==================================================
+// CLEAR
+// ==================================================
+
+function clearQuestions() {
+
+    document.getElementById(
+        "questions"
+    ).value = "";
+
+
+    document.getElementById(
+        "answers"
+    ).innerHTML = "";
+
+
+    document.getElementById(
+        "status"
+    ).innerText = "";
+
+}
+
+
+// ==================================================
+// SECURITY
+// ==================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+// ==================================================
+// START
+// ==================================================
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadDashboard();
+        loadRecommendations();
+
+    }
+);
+// ==================================================
+// AI RECOMMENDATIONS
+// ==================================================
+
+async function loadRecommendations() {
+
+    const container =
+        document.getElementById("recommendations");
+
+    container.innerHTML =
+        '<div class="answer-card">🤖 Generating recommendations...</div>';
+
+    try {
+
+        const response = await fetch("/insights");
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error || "Recommendation request failed"
+            );
+
+        }
+
+        let recommendation = "";
+
+        if (typeof data === "string") {
+
+            recommendation = data;
+
+        }
+        else if (data.insights) {
+
+            recommendation = data.insights;
+
+        }
+        else if (data.recommendations) {
+
+            recommendation = data.recommendations;
+
+        }
+        else {
+
+            recommendation =
+                JSON.stringify(data, null, 2);
+
+        }
+
+        container.innerHTML = `
+            <div class="answer-card">
+
+                <div class="answer-text">
+                    ${escapeHtml(recommendation)}
+                </div>
+
+            </div>
+        `;
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Recommendation error:",
+            error
+        );
+
+        container.innerHTML = `
+            <div class="answer-card">
+
+                ❌ Recommendation error:
+                ${escapeHtml(error.message)}
+
+            </div>
+        `;
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

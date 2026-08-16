@@ -7,31 +7,14 @@
 
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
-<!-- ==========================================
-     AI RECOMMENDATIONS
-========================================== -->
-
-<div class="ai-card" style="margin-bottom:25px;">
-
-    <h2>💡 AI Business Recommendations</h2>
-
-    <p class="ai-description">
-        Recommendations generated from the current sales data.
-    </p>
-
-    <div id="recommendations">
-
-        <div class="answer-card">
-            Loading recommendations...
-        </div>
-
-    </div>
-
-</div>
 
 <title>AI Data Analyst Dashboard</title>
 
 <style>
+
+/* ==================================================
+   GLOBAL
+================================================== */
 
 * {
     box-sizing: border-box;
@@ -44,9 +27,10 @@ body {
     color: #1e293b;
 }
 
-/* ================================
+
+/* ==================================================
    HEADER
-================================ */
+================================================== */
 
 .header {
     background: linear-gradient(
@@ -69,9 +53,10 @@ body {
     opacity: 0.9;
 }
 
-/* ================================
+
+/* ==================================================
    CONTAINER
-================================ */
+================================================== */
 
 .container {
     max-width: 1500px;
@@ -79,9 +64,10 @@ body {
     padding: 25px;
 }
 
-/* ================================
-   STATUS
-================================ */
+
+/* ==================================================
+   SYSTEM STATUS
+================================================== */
 
 .system-status {
     background: white;
@@ -96,9 +82,10 @@ body {
     font-weight: bold;
 }
 
-/* ================================
+
+/* ==================================================
    FILTERS
-================================ */
+================================================== */
 
 .filters {
     background: white;
@@ -156,9 +143,10 @@ select {
     background: #1d4ed8;
 }
 
-/* ================================
+
+/* ==================================================
    KPI
-================================ */
+================================================== */
 
 .kpi-grid {
     display: grid;
@@ -197,9 +185,10 @@ select {
     font-weight: bold;
 }
 
-/* ================================
+
+/* ==================================================
    ANALYTICS
-================================ */
+================================================== */
 
 .analytics-grid {
     display: grid;
@@ -229,9 +218,10 @@ select {
     font-size: 20px;
 }
 
-/* ================================
+
+/* ==================================================
    BAR CHART
-================================ */
+================================================== */
 
 .chart-row {
     margin: 18px 0;
@@ -272,9 +262,10 @@ select {
     transition: width 0.5s;
 }
 
-/* ================================
+
+/* ==================================================
    GENDER
-================================ */
+================================================== */
 
 .gender-box {
     display: grid;
@@ -305,9 +296,10 @@ select {
     color: #2563eb;
 }
 
-/* ================================
+
+/* ==================================================
    RECOMMENDATIONS
-================================ */
+================================================== */
 
 .recommendation-card {
     background: white;
@@ -368,9 +360,10 @@ select {
     color: #334155;
 }
 
-/* ================================
+
+/* ==================================================
    AI SECTION
-================================ */
+================================================== */
 
 .ai-card {
     background: white;
@@ -382,6 +375,8 @@ select {
     box-shadow:
         0 4px 15px
         rgba(0,0,0,0.07);
+
+    margin-bottom: 25px;
 }
 
 .ai-card h2 {
@@ -444,6 +439,10 @@ textarea:focus {
     font-size: 15px;
 }
 
+.ask-button:hover {
+    background: #1e3a8a;
+}
+
 .clear-button {
     background: #e2e8f0;
 
@@ -462,12 +461,18 @@ textarea:focus {
     font-weight: bold;
 }
 
-/* ================================
+.clear-button:hover {
+    background: #cbd5e1;
+}
+
+
+/* ==================================================
    ANSWERS
-================================ */
+================================================== */
 
 #status {
     margin-top: 18px;
+
     font-weight: bold;
 }
 
@@ -506,17 +511,19 @@ textarea:focus {
     line-height: 1.6;
 }
 
-/* ================================
+
+/* ==================================================
    LOADING
-================================ */
+================================================== */
 
 .loading {
     color: #64748b;
 }
 
-/* ================================
+
+/* ==================================================
    RESPONSIVE
-================================ */
+================================================== */
 
 @media(max-width: 1000px) {
 
@@ -529,7 +536,6 @@ textarea:focus {
         grid-template-columns:
             1fr;
     }
-
 }
 
 @media(max-width: 600px) {
@@ -552,6 +558,9 @@ textarea:focus {
         width: 100%;
     }
 
+    .gender-box {
+        grid-template-columns: 1fr;
+    }
 }
 
 </style>
@@ -562,9 +571,9 @@ textarea:focus {
 <body>
 
 
-<!-- ==========================================
+<!-- ==================================================
      HEADER
-========================================== -->
+================================================== -->
 
 <div class="header">
 
@@ -572,19 +581,16 @@ textarea:focus {
         🤖 AI Data Analyst
     </h1>
 
-    <p>
-        Interactive Sales Analytics Dashboard
-    </p>
-
+    
 </div>
 
 
 <div class="container">
 
 
-<!-- ==========================================
-     STATUS
-========================================== -->
+<!-- ==================================================
+     SYSTEM STATUS
+================================================== -->
 
 <div
     class="system-status"
@@ -595,11 +601,12 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
+<!-- ==================================================
      FILTERS
-========================================== -->
+================================================== -->
 
 <div class="filters">
+
 
     <div class="filter">
 
@@ -663,9 +670,9 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
+<!-- ==================================================
      KPI ROW 1
-========================================== -->
+================================================== -->
 
 <div class="kpi-grid">
 
@@ -741,9 +748,9 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
+<!-- ==================================================
      KPI ROW 2
-========================================== -->
+================================================== -->
 
 <div class="kpi-grid">
 
@@ -819,9 +826,9 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
+<!-- ==================================================
      ANALYTICS
-========================================== -->
+================================================== -->
 
 <div class="analytics-grid">
 
@@ -877,9 +884,9 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
-     AI RECOMMENDATIONS
-========================================== -->
+<!-- ==================================================
+     AI BUSINESS RECOMMENDATIONS
+================================================== -->
 
 <div class="recommendation-card">
 
@@ -915,9 +922,9 @@ textarea:focus {
 </div>
 
 
-<!-- ==========================================
-     AI DATA ANALYST
-========================================== -->
+<!-- ==================================================
+     ASK AI DATA ANALYST
+================================================== -->
 
 <div class="ai-card">
 
@@ -1023,7 +1030,10 @@ async function loadDashboard() {
             new URLSearchParams();
 
 
-        if (city && city !== "All") {
+        if (
+            city &&
+            city !== "All"
+        ) {
 
             params.append(
                 "city",
@@ -1033,7 +1043,10 @@ async function loadDashboard() {
         }
 
 
-        if (gender && gender !== "All") {
+        if (
+            gender &&
+            gender !== "All"
+        ) {
 
             params.append(
                 "gender",
@@ -1043,7 +1056,10 @@ async function loadDashboard() {
         }
 
 
-        if (product && product !== "All") {
+        if (
+            product &&
+            product !== "All"
+        ) {
 
             params.append(
                 "product",
@@ -1054,8 +1070,7 @@ async function loadDashboard() {
 
 
         const url =
-            "/dashboard-filtered"
-            +
+            "/dashboard-filtered" +
             (
                 params.toString()
                 ? "?" + params.toString()
@@ -1086,9 +1101,12 @@ async function loadDashboard() {
 
             throw new Error(
                 "Dashboard API returned "
-                + response.status
-                + ": "
-                + errorText
+                +
+                response.status
+                +
+                ": "
+                +
+                errorText
             );
 
         }
@@ -1120,7 +1138,8 @@ async function loadDashboard() {
 
         status.innerText =
             "❌ Dashboard error: "
-            + error.message;
+            +
+            error.message;
 
     }
 
@@ -1262,7 +1281,7 @@ function updateDashboard(data) {
 
 
 // ==================================================
-// AI RECOMMENDATIONS
+// AI BUSINESS RECOMMENDATIONS
 // ==================================================
 
 function generateRecommendations(data) {
@@ -1272,6 +1291,7 @@ function generateRecommendations(data) {
             "recommendations"
         );
 
+
     container.innerHTML = "";
 
 
@@ -1279,7 +1299,7 @@ function generateRecommendations(data) {
 
 
     // ------------------------------------------
-    // CITY RECOMMENDATION
+    // CITY
     // ------------------------------------------
 
     const cities =
@@ -1322,7 +1342,7 @@ function generateRecommendations(data) {
 
 
     // ------------------------------------------
-    // PRODUCT RECOMMENDATION
+    // PRODUCT
     // ------------------------------------------
 
     const products =
@@ -1371,11 +1391,15 @@ function generateRecommendations(data) {
     if (products.length > 1) {
 
         const lowProduct =
-            products[products.length - 1][0];
+            products[
+                products.length - 1
+            ][0];
 
         const lowSales =
             Number(
-                products[products.length - 1][1]
+                products[
+                    products.length - 1
+                ][1]
             );
 
 
@@ -1467,7 +1491,9 @@ function generateRecommendations(data) {
     // DISPLAY
     // ------------------------------------------
 
-    if (recommendations.length === 0) {
+    if (
+        recommendations.length === 0
+    ) {
 
         container.innerHTML = `
 
@@ -1559,33 +1585,42 @@ function updateFilterOptions(data) {
 
     fillSelect(
         "cityFilter",
+
         data.available_cities ||
         Object.keys(
             data.sales_by_city || {}
         ),
+
         "All Cities",
+
         currentCity
     );
 
 
     fillSelect(
         "genderFilter",
+
         data.available_genders ||
         Object.keys(
             data.sales_by_gender || {}
         ),
+
         "All Genders",
+
         currentGender
     );
 
 
     fillSelect(
         "productFilter",
+
         data.available_products ||
         Object.keys(
             data.sales_by_product || {}
         ),
+
         "All Products",
+
         currentProduct
     );
 
@@ -1593,7 +1628,7 @@ function updateFilterOptions(data) {
 
 
 // ==================================================
-// CREATE BAR CHART
+// BAR CHART
 // ==================================================
 
 function createBarChart(
@@ -1615,7 +1650,9 @@ function createBarChart(
         Object.entries(data);
 
 
-    if (entries.length === 0) {
+    if (
+        entries.length === 0
+    ) {
 
         container.innerHTML =
             "<p>No data available</p>";
@@ -1704,7 +1741,7 @@ function createBarChart(
 
 
 // ==================================================
-// GENDER
+// GENDER CHART
 // ==================================================
 
 function createGenderChart(data) {
@@ -1722,7 +1759,9 @@ function createGenderChart(data) {
         Object.entries(data);
 
 
-    if (entries.length === 0) {
+    if (
+        entries.length === 0
+    ) {
 
         container.innerHTML =
             "<p>No gender data available</p>";
@@ -2090,7 +2129,7 @@ async function askQuestions() {
 
 
 // ==================================================
-// CLEAR
+// CLEAR QUESTIONS
 // ==================================================
 
 function clearQuestions() {
@@ -2149,7 +2188,7 @@ function escapeHtml(value) {
 
 
 // ==================================================
-// START
+// START DASHBOARD
 // ==================================================
 
 window.addEventListener(
@@ -2157,91 +2196,9 @@ window.addEventListener(
     function() {
 
         loadDashboard();
-        loadRecommendations();
 
     }
 );
-// ==================================================
-// AI RECOMMENDATIONS
-// ==================================================
-
-async function loadRecommendations() {
-
-    const container =
-        document.getElementById("recommendations");
-
-    container.innerHTML =
-        '<div class="answer-card">🤖 Generating recommendations...</div>';
-
-    try {
-
-        const response = await fetch("/insights");
-
-        const data = await response.json();
-
-        if (!response.ok) {
-
-            throw new Error(
-                data.error || "Recommendation request failed"
-            );
-
-        }
-
-        let recommendation = "";
-
-        if (typeof data === "string") {
-
-            recommendation = data;
-
-        }
-        else if (data.insights) {
-
-            recommendation = data.insights;
-
-        }
-        else if (data.recommendations) {
-
-            recommendation = data.recommendations;
-
-        }
-        else {
-
-            recommendation =
-                JSON.stringify(data, null, 2);
-
-        }
-
-        container.innerHTML = `
-            <div class="answer-card">
-
-                <div class="answer-text">
-                    ${escapeHtml(recommendation)}
-                </div>
-
-            </div>
-        `;
-
-    }
-
-    catch(error) {
-
-        console.error(
-            "Recommendation error:",
-            error
-        );
-
-        container.innerHTML = `
-            <div class="answer-card">
-
-                ❌ Recommendation error:
-                ${escapeHtml(error.message)}
-
-            </div>
-        `;
-
-    }
-
-}
 
 </script>
 
